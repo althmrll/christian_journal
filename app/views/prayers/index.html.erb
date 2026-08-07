@@ -10,6 +10,17 @@
     <%= link_to "New prayer", new_prayer_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
 
+  <div class="flex border-b border-slate-200 mb-8 gap-6">
+    <%= link_to "Unanswered", prayers_path(filter: "unanswered"), 
+          class: "pb-3 text-base font-semibold border-b-2 #{params[:filter] == 'unanswered' || params[:filter].blank? ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}" %>
+
+    <%= link_to "Answered", prayers_path(filter: "answered"), 
+          class: "pb-3 text-base font-semibold border-b-2 #{params[:filter] == 'answered' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}" %>
+
+    <%= link_to "All Prayers", prayers_path(filter: "all"), 
+          class: "pb-3 text-base font-semibold border-b-2 #{params[:filter] == 'all' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}" %>
+  </div>
+
   <div id="prayers" class="min-w-full space-y-4">
     <% if @prayers.any? %>
       <% @prayers.each do |prayer| %>

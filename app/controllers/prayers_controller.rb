@@ -3,7 +3,14 @@ class PrayersController < ApplicationController
 
   # GET /prayers or /prayers.json
   def index
-    @prayers = Prayer.all
+    case params[:filter]
+    when "answered"
+        @prayers = Prayer.answered
+    when "unanswered"
+        @prayers = Prayer.unanswered
+    else
+        @prayers = Prayer.all
+    end
   end
 
   # GET /prayers/1 or /prayers/1.json
