@@ -22,7 +22,10 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
+  <nav class="flex space-x-4 bg-slate-800 p-4 text-white">
+  <%= link_to "Home", root_path, class: "hover:text-sky-400" %>
+  <%= link_to "Entries", entries_path, class: "hover:text-sky-400" %>
+</nav>
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
