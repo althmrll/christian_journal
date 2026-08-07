@@ -64,6 +64,12 @@ class PrayersController < ApplicationController
     end
   end
 
+  def answered
+      @prayer = Prayer.find(params[:id])
+      @prayer.update(answered: true)
+      redirect_to prayers_path(filter: "unanswered"), notice: "Prayer marked as answered!"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_prayer

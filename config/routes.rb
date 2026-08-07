@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :prayers
+  resources :prayers do
+    member do
+      patch :mark_as_answered
+    end
+  end
   resources :entries
   root "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
