@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  prayer: MyString
+  specification: MyText
+
+two:
+  prayer: MyString
+  specification: MyText
