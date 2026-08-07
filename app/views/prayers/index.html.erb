@@ -34,7 +34,7 @@
                 </svg>
               </div>
               <% unless prayer.answered? %>
-                <%= button_to "Mark as Answered", mark_as_answered_prayer_path(prayer), 
+                <%= button_to "Mark as Answered",answered_prayer_path(prayer), 
                 method: :patch, 
                 class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
               <% end %>
@@ -49,7 +49,7 @@
           <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
             <h2 class="font-bold text-xl"><%= prayer.prayer.camelize %></h2>
            <% unless prayer.answered? %>
-              <%= button_to "Mark as Answered", mark_as_answered_prayer_path(prayer), 
+              <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
               method: :patch, 
               class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
     <% end %>

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :prayers do
     member do
-      patch :mark_as_answered
+      patch :answered
     end
   end
   resources :entries
