@@ -22,6 +22,11 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+  <header class="bg-white border-b border-gray-200 py-4 px-5 shadow-sm">
+      <div class="container mx-2 font-bold text-4xl text-[#0000FF]">
+        Christian Journal
+      </div>
+  </header>
   <nav class="flex space-x-4 bg-slate-800 p-4 text-white">
   <%= link_to "Home", root_path, class: "hover:text-sky-400" %>
   <%= link_to "Entries", entries_path, class: "hover:text-sky-400" %>
