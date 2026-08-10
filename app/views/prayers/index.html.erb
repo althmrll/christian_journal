@@ -26,16 +26,16 @@
       <% @prayers.each do |prayer| %>
         <% if prayer.specification.present? %>  
           <details class="group bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-            <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold text-slate-800 hover:bg-slate-50 transition-colors list-none select-none">
+            <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold hover:bg-slate-50 transition-colors list-none select-none <%= prayer.answered? ? 'text-slate-400' : 'text-slate-800' %>">
               <div class="flex items-center gap-2">
                 <span class="text-xl font-bold"><%= prayer.prayer.camelize %></span>
-                <svg class="h-5 w-5 text-slate-500 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 <%= prayer.answered? ? 'text-slate-300' : 'text-slate-500' %> transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
               
               <% if prayer.answered? %>
-                <%= button_to "Delete", prayer_path(prayer), method: :delete %>
+                <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete %>
               <% else %>
                 <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
                       method: :patch, 
@@ -43,15 +43,15 @@
               <% end %>
             </summary>
             
-            <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 text-slate-600 prose">
+            <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose <%= prayer.answered? ? 'text-slate-400' : 'text-slate-600' %>">
               <%= simple_format(prayer.specification) %>
             </div>
           </details>
         <% else %>
           <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
-            <h2 class="font-bold text-xl"><%= prayer.prayer.camelize %></h2>
+            <h2 class="font-bold text-xl <%= prayer.answered? ? 'text-slate-400' : 'text-slate-800' %>"><%= prayer.prayer.camelize %></h2>
             <% if prayer.answered? %>
-              <%= button_to "Delete", prayer_path(prayer), method: :delete %>
+              <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete %>
             <% else %>
               <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
                     method: :patch, 

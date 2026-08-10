@@ -61,7 +61,7 @@ class PrayersController < ApplicationController
     @prayer.destroy!
 
     respond_to do |format|
-      format.html { redirect_to prayers_path, notice: "Prayer was successfully destroyed.", status: :see_other }
+      format.html { redirect_to prayers_path(filter: params[:filter]), notice: "Prayer was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -69,7 +69,7 @@ class PrayersController < ApplicationController
   def answered
       @prayer = Prayer.find(params[:id])
       @prayer.update(answered: true)
-      redirect_to prayers_path(filter: "unanswered"), notice: "Prayer marked as answered!"
+      redirect_to prayers_path(filter: "answered"), notice: "Prayer marked as answered!"
   end
 
   private
