@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
-  scope :answered, -> { where(answered: true) }
-  scope :unanswered, -> { where(answered: [ false, nil ]) }
+  scope :unanswered, -> { where(answer: [ nil, "" ]) }
+  scope :answered, -> { where.not(answer: [ nil, "" ]) }
 
   def answered?
     answer.present?

@@ -25,49 +25,43 @@
     <% if @questions.any? %>
       <% @questions.each do |question| %>
         <% if question.answer.present? %>  
+          <!-- ANSWERED QUESTION DRAWER -->
           <details class="group bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-            <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold hover:bg-slate-50 transition-colors list-none select-none <%= question.answered? ? 'text-slate-400' : 'text-slate-800' %>">
+            <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold hover:bg-slate-50 transition-colors list-none select-none text-slate-400">
               <div class="flex items-center gap-2">
                 <span class="text-xl font-bold"><%= question.question.camelize %></span>
-                <svg class="h-5 w-5 <%= question.answered? ? 'text-slate-300' : 'text-slate-500' %> transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 text-slate-300 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
               
-              <% if question.answered? %>
-                <%= button_to "Delete", question_path(question, filter: params[:filter]), method: :delete %>
-              <% else %>
-                <%= button_to "Answer Question",update_question_path(question), 
-                      method: :patch, 
-                      class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
-              <% end %>
+              <%= button_to "Delete", question_path(question, filter: params[:filter]), 
+                    method: :delete, 
+                    class: "ml-4 shrink-0 px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
             </summary>
             
-            <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose <%= question.answered? ? 'text-slate-400' : 'text-slate-600' %>">
+            <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose text-slate-600">
               <%= simple_format(question.answer) %>
             </div>
           </details>
         <% else %>
+          <!-- UNANSWERED QUESTION CARD -->
           <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
-            <h2 class="font-bold text-xl <%= question.answered? ? 'text-slate-400' : 'text-slate-800' %>"><%= question.question.camelize %></h2>
-            <% if question.answered? %>
-              <%= button_to "Delete", question_path(filter: params[:filter]), method: :delete %>
-            <% else %>
-              <%= button_to "Answer Question", answered_question_path(question), 
-                    method: :patch, 
-                    class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
-            <% end %>
+            <h2 class="font-bold text-xl text-slate-800"><%= question.question.camelize %></h2>
+            
+            <%= link_to "Answer Question", edit_question_path(question, filter: params[:filter]), 
+                  class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
           </div>
         <% end %>
       <% end %>
     <% else %>
-      <%if params[:filter] == "answered" %>
+      <% if params[:filter] == "answered" %>
         <p class="text-center my-10 text-gray-500">No questions have been answered yet.</p>
-      <%elsif params[:filter] == "unanswered" %>
-        <p class="text-center my-10 text-gray-500">All questions have been answered. Thank God!</p>
-      <%else%>
+      <% elsif params[:filter] == "unanswered" || params[:filter].blank? %>
+        <p class="text-center my-10 text-gray-500">All questions have been answered!</p>
+      <% else %>
         <p class="text-center my-10 text-gray-500">No questions yet.</p>
-      <%end%>
+      <% end %>
     <% end %>
   </div>
 </div>

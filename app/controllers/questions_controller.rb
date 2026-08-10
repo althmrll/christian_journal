@@ -3,16 +3,14 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
-     @prayers = case params[:filter]
-     when "unanswered"
-      Prayer.where(answered: [ false, nil ]).order(created_at: :desc)
-     when "answered"
-      Prayer.where(answered: true)
-     when "all"
-      Prayer.all.order(created_at: :desc)
-     else
-      Prayer.where(answered: [ false, nil ]).order(created_at: :desc)
-     end
+    @questions = case params[:filter]
+    when "answered"
+        Question.answered.order(created_at: :desc)
+    when "all"
+      Question.all.order(created_at: :desc)
+    else
+      Question.unanswered.order(created_at: :desc) # Default view
+    end
   end
 
   # GET /questions/1 or /questions/1.json
@@ -44,14 +42,11 @@ class QuestionsController < ApplicationController
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
-    respond_to do |format|
-      if @question.update(question_params)
-        format.html { redirect_to @question, notice: "Question was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @question }
-      else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @question.errors, status: :unprocessable_content }
-      end
+    @question = Question.find(params[:id])
+    if @question.update(question_params)
+      redirect_to questions_path(filter: params[:filter]), notice: "Question was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -77,8 +72,7 @@ class QuestionsController < ApplicationController
       @question = Question.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
     def question_params
-      params.expect(question: [ :question, :answer ])
+      params.require(:question).permit(:question, :answer)
     end
 end
