@@ -35,13 +35,14 @@
               </div>
               
               <% if prayer.answered? %>
-                <%= button_to "Delete", prayer_path(prayer) %>
+                <%= button_to "Delete", prayer_path(prayer), method: :delete %>
               <% else %>
                 <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
                       method: :patch, 
                       class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
               <% end %>
             </summary>
+            
             <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 text-slate-600 prose">
               <%= simple_format(prayer.specification) %>
             </div>
@@ -50,7 +51,7 @@
           <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
             <h2 class="font-bold text-xl"><%= prayer.prayer.camelize %></h2>
             <% if prayer.answered? %>
-              <%= button_to "Delete", prayer_path(prayer) %>
+              <%= button_to "Delete", prayer_path(prayer), method: :delete %>
             <% else %>
               <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
                     method: :patch, 
