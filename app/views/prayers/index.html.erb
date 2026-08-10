@@ -61,7 +61,13 @@
         <% end %>
       <% end %>
     <% else %>
-      <p class="text-center my-10 text-gray-500">All prayers have been answered. Thank God!</p>
+      <%if params[:filter] == "answered" %>
+        <p class="text-center my-10 text-gray-500">No prayers have been answered yet.</p>
+      <%elsif params[:filter] == "unanswered" %>
+        <p class="text-center my-10 text-gray-500">All prayers have been answered. Thank God!</p>
+      <%else%>
+        <p class="text-center my-10 text-gray-500">No prayers yet.</p>
+      <%end%>
     <% end %>
   </div>
 </div>
