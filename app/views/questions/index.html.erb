@@ -34,10 +34,15 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-              
-              <%= button_to "Delete", question_path(question, filter: params[:filter]), 
+              <div class="flex gap-1">
+                <%= button_to "Update Answer", question_path(question, filter: params[:filter]), 
+                    method: :update, 
+                    class: "ml-4 shrink-0 px-3 py-1.5 bg-gray-200 hover:bg-gray-500 text-black font-medium text-xs rounded-md shadow-sm transition-colors" %>
+
+                <%= button_to "Delete", question_path(question, filter: params[:filter]), 
                     method: :delete, 
                     class: "ml-4 shrink-0 px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
+              </div>
             </summary>
             
             <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose text-slate-600">
