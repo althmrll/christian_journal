@@ -34,7 +34,7 @@ class PrayersController < ApplicationController
 
     respond_to do |format|
       if @prayer.save
-        format.html { redirect_to @prayer, notice: "Prayer was successfully created." }
+        format.html { redirect_to prayers_path, notice: "Prayer was successfully created." }
         format.json { render :show, status: :created, location: @prayer }
       else
         format.html { render :new, status: :unprocessable_content }

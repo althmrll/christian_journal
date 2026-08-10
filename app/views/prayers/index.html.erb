@@ -29,30 +29,33 @@
             <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold text-slate-800 hover:bg-slate-50 transition-colors list-none select-none">
               <div class="flex items-center gap-2">
                 <span class="text-xl font-bold"><%= prayer.prayer.camelize %></span>
-                <svg class="h-5 text-slate-500 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 text-slate-500 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-              <% unless prayer.answered? %>
-                <%= button_to "Mark as Answered",answered_prayer_path(prayer), 
-                method: :patch, 
-                class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
+              
+              <% if prayer.answered? %>
+                <%= button_to "Delete", prayer_path(prayer) %>
+              <% else %>
+                <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
+                      method: :patch, 
+                      class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
               <% end %>
             </summary>
             <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 text-slate-600 prose">
               <%= simple_format(prayer.specification) %>
-  </div>
-</details>
             </div>
           </details>
         <% else %>
           <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
             <h2 class="font-bold text-xl"><%= prayer.prayer.camelize %></h2>
-           <% unless prayer.answered? %>
+            <% if prayer.answered? %>
+              <%= button_to "Delete", prayer_path(prayer) %>
+            <% else %>
               <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
-              method: :patch, 
-              class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
-    <% end %>
+                    method: :patch, 
+                    class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
+            <% end %>
           </div>
         <% end %>
       <% end %>
