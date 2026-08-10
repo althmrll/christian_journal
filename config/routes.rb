@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :questions
+  resources :questions do
+    member do
+      patch :answered
+    end
+  end
   resources :prayers do
     member do
       patch :answered
