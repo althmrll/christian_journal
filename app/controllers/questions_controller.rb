@@ -42,9 +42,9 @@ class QuestionsController < ApplicationController
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
-    @question = Question.find(params[:id])
+   @question = Question.find(params[:id])
     if @question.update(question_params)
-      redirect_to questions_path(filter: params[:filter]), notice: "Question was successfully updated."
+      redirect_to questions_path(filter: params[:filter].presence || "answered"), notice: "Question was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
