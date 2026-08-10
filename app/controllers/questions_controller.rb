@@ -55,7 +55,7 @@ class QuestionsController < ApplicationController
     @question.destroy!
 
     respond_to do |format|
-      format.html { redirect_to questions_path, notice: "Question was successfully destroyed.", status: :see_other }
+      format.html { redirect_to questions_path(filter: params[:filter]), notice: "Question was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -63,7 +63,7 @@ class QuestionsController < ApplicationController
   def answered
     @question = Question.find(params[:id])
     @question.update(answer: "Answered")
-  redirect_to questions_path, notice: "Question marked as answered!"
+    redirect_to questions_path(filter: "answered"), notice: "Question marked as answered!"
   end
 
   private
