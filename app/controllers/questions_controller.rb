@@ -3,7 +3,16 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.all
+     @prayers = case params[:filter]
+     when "unanswered"
+      Prayer.where(answered: [ false, nil ]).order(created_at: :desc)
+     when "answered"
+      Prayer.where(answered: true)
+     when "all"
+      Prayer.all.order(created_at: :desc)
+     else
+      Prayer.where(answered: [ false, nil ]).order(created_at: :desc)
+     end
   end
 
   # GET /questions/1 or /questions/1.json
