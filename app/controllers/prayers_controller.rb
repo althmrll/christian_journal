@@ -3,13 +3,15 @@ class PrayersController < ApplicationController
 
   # GET /prayers or /prayers.json
   def index
-    case params[:filter]
-    when "answered"
-        @prayers = Prayer.answered
+    @prayers = case params[:filter]
     when "unanswered"
-        @prayers = Prayer.unanswered
+      Prayer.where(answered: [ false, nil ]).order(created_at: :desc)
+    when "answered"
+      Prayer.where(answered: true)
+    when "all"
+      Prayer.all.order(created_at: :desc)
     else
-        @prayers = Prayer.all
+      Prayer.where(answered: [ false, nil ]).order(created_at: :desc)
     end
   end
 
