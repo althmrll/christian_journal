@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
   end
 
   # PATCH/PUT /questions/1 or /questions/1.json
-  def update
+  def answer
    @question = Question.find(params[:id])
     if @question.update(question_params)
       redirect_to questions_path(filter: params[:filter].presence || "answered"), notice: "Question was successfully updated."
@@ -50,6 +50,17 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+   respond_to do |format|
+      if @question.update(entry_path)
+        format.html { redirect_to questions_path(filter: params[:filter]), notice: "Entry was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: @entry }
+      else
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @entry.errors, status: :unprocessable_content }
+      end
+    end
+  end
   # DELETE /questions/1 or /questions/1.json
   def destroy
     @question.destroy!
@@ -62,7 +73,7 @@ class QuestionsController < ApplicationController
 
   def answered
     @question = Question.find(params[:id])
-    @question.update(answer: "Answered")
+    @question.answer(answer: "Answered")
     redirect_to questions_path(filter: "answered"), notice: "Question marked as answered!"
   end
 

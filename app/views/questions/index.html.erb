@@ -53,6 +53,9 @@
           <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
             <h2 class="font-bold text-xl text-slate-800"><%= question.question.camelize %></h2>
             
+            <%= link_to "Edit Question", edit_question_path(question, filter: params[:filter]), 
+                  class: "ml-4 shrink-0 px-3 py-1.5 bg-gray-200 hover:bg-gray-500 text-black font-medium text-xs rounded-md shadow-sm transition-colors" %>
+
             <%= link_to "Answer Question", edit_question_path(question, filter: params[:filter]), 
                   class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
           </div>
