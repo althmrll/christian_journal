@@ -13,4 +13,9 @@ class AccessController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def destroy
+    session[:authenticated] = nil
+    redirect_to new_access_path, notice: "You have been logged out."
+  end
 end

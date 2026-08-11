@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get  "access", to: "access#new", as: :new_access
   post "access", to: "access#create", as: :access
+  delete "logout", to: "access#destroy", as: :logout
 
   resources :questions do
     member do
