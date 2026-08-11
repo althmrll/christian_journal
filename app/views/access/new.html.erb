@@ -1,0 +1,16 @@
+<div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
+  <h2>Enter Site Password</h2>
+
+  <% if flash[:alert] %>
+    <p style="color: red; margin-bottom: 15px;"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= form_with url: access_path, method: :post do |f| %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :password, "Password" %><br>
+      <%= f.password_field :password, autofocus: true, style: "width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" %>
+    </div>
+
+    <%= f.submit "Enter", style: "padding: 8px 16px; cursor: pointer;" %>
+  <% end %>
+</div>
