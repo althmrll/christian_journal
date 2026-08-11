@@ -29,7 +29,7 @@
           <details class="group bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
             <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold hover:bg-slate-50 transition-colors list-none select-none text-slate-400">
               <div class="flex items-center gap-2">
-                <span class="text-xl font-bold"><%= question.question.camelize %></span>
+                <span class="mr-10 whitespace-pre-wrap text-xl font-bold"><%= question.question.camelize %></span>
                 <svg class="h-5 w-5 text-slate-300 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -44,7 +44,7 @@
               </div>
             </summary>
             
-            <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose text-slate-600">
+            <div class="whitespace-pre-wrap px-5 bg-slate-50 border-t border-slate-100 prose text-slate-600">
               <%= simple_format(question.answer) %>
             </div>
           </details>
