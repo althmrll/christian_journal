@@ -1,11 +1,11 @@
 class QuestionsController < ApplicationController
-  before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :set_question, only: %i[ show edit update destroy answered ]
 
   # GET /questions or /questions.json
   def index
     @questions = case params[:filter]
     when "answered"
-        Question.answered.order(created_at: :desc)
+      Question.answered.order(created_at: :desc)
     when "all"
       Question.all.order(created_at: :desc)
     else
@@ -33,34 +33,29 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       if @question.save
         format.html { redirect_to questions_path(filter: params[:filter]), notice: "Question was successfully created." }
+        format.json { render :show, status: :created, location: @question }
       else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @question.errors, status: :unprocessable_content }
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /questions/1 or /questions/1.json
-  def answer
-   @question = Question.find(params[:id])
-    if @question.update(question_params)
-      redirect_to questions_path(filter: params[:filter].presence || "answered"), notice: "Question was successfully updated."
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
   def update
-   respond_to do |format|
-      if @question.update(entry_path)
-        format.html { redirect_to questions_path(filter: params[:filter]), notice: "Entry was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @entry }
+    respond_to do |format|
+      if @question.update(question_params)
+        # Keeps user on the same filter tab they were editing from
+        current_filter = params[:filter].presence || (@question.answer.present? ? "answered" : "unanswered")
+        format.html { redirect_to questions_path(filter: current_filter), notice: "Question was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: @question }
       else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @entry.errors, status: :unprocessable_content }
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
   end
+
   # DELETE /questions/1 or /questions/1.json
   def destroy
     @question.destroy!
@@ -71,19 +66,23 @@ class QuestionsController < ApplicationController
     end
   end
 
+  # PATCH /questions/1/answered
   def answered
-    @question = Question.find(params[:id])
-    @question.answer(answer: "Answered")
-    redirect_to questions_path(filter: "answered"), notice: "Question marked as answered!"
+    # Marks as answered and redirects directly to the answered tab
+    if @question.update(answer: params[:answer].presence || "Answered")
+      redirect_to questions_path(filter: "answered"), notice: "Question marked as answered!"
+    else
+      redirect_to questions_path, alert: "Could not mark question as answered."
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_question
-      @question = Question.find(params.expect(:id))
-    end
 
-    def question_params
-      params.require(:question).permit(:question, :answer)
-    end
+  def set_question
+    @question = Question.find(params[:id])
+  end
+
+  def question_params
+    params.require(:question).permit(:question, :answer)
+  end
 end
