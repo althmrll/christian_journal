@@ -1,5 +1,4 @@
-<div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
-  <h2>Enter Site Password</h2>
+<div style="max-width: 400px; margin: 3rem auto; padding: 2rem; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
 
   <% if flash[:alert] %>
     <p style="color: red; margin-bottom: 15px;"><%= flash[:alert] %></p>
@@ -11,6 +10,6 @@
       <%= f.password_field :password, autofocus: true, style: "width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" %>
     </div>
 
-    <%= f.submit "Enter", style: "padding: 8px 16px; cursor: pointer;" %>
+    <%= f.submit "Enter",  class: "w-full rounded-md px-3.5 py-2 bg-slate-800 hover:bg-gray-200 text-white text-semibold transition-colors" %>
   <% end %>
 </div>
