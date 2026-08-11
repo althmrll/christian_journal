@@ -1,6 +1,9 @@
 <div>
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-10 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
   <h1 class="text-4xl font-bold mb-4">
-    Welcome to CHristian Journal!
+    Welcome to Christian Journal!
   </h1>
   <p class="text-lg">
     This is a simple journal application built with Ruby on Rails. You can create, edit, and
