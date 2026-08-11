@@ -8,6 +8,8 @@ class EntriesController < ApplicationController
 
   # GET /entries/1 or /entries/1.json
   def show
+    @entry = Entry.find(params[:id])
+    @entries = Entry.order(created_at: :desc)
   end
 
   # GET /entries/new

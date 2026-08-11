@@ -1,6 +1,19 @@
 <% content_for :title, "Showing entry" %>
+<div class="w-full mx-auto px-4 py-8 flex gap-8">
+  <!-- Left Sidebar: Entry Index List -->
+  <aside class="w-75 border-r border-gray-200 pr-6 shrink-0">
+    <h2 class="text-xl font-bold text-slate-800 mb-4">All Entries</h2>
+    <ul class="space-y-2">
+      <% @entries.each do |e| %>
+        <li>
+          <%= link_to e.title, entry_path(e), 
+                class: "block p-3 rounded-lg transition-colors #{'bg-slate-100 font-semibold text-slate-900' if e == @entry} #{'text-slate-600 hover:bg-gray-50' unless e == @entry}" %>
+        </li>
+      <% end %>
+    </ul>
+  </aside>
 
-<div class="max-w-3xl mx-auto px-4 py-8">
+<div class="w-full mx-auto px-4 py-8">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
