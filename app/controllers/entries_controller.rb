@@ -15,24 +15,25 @@ class EntriesController < ApplicationController
   # GET /entries/new
   def new
     @entry = Entry.new
+    @cancel = cancel_path
   end
 
   # GET /entries/1/edit
   def edit
+    @cancel = entry_path(@entry)
   end
 
   # POST /entries or /entries.json
   def create
     @entry = Entry.new(entry_params)
+    @return_to = params[:return_to]
+    @origin_id = params[:origin_id]
 
-    respond_to do |format|
-      if @entry.save
-        format.html { redirect_to @entry, notice: "Entry was successfully created." }
-        format.json { render :show, status: :created, location: @entry }
-      else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @entry.errors, status: :unprocessable_content }
-      end
+    if @entry.save
+      redirect_to @entry, notice: "Entry created successfully!"
+    else
+      @cancel = cancel_path
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -73,5 +74,13 @@ class EntriesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def entry_params
       params.expect(entry: [ :title, :content ])
+    end
+
+    def cancel_path
+      if params[:return_to] == "show" && params[:origin_id].present? && Entry.exists?(params[:origin_id])
+        entry_path(params[:origin_id])
+      else
+        entries_path
+      end
     end
 end
