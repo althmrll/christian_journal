@@ -7,7 +7,7 @@
 
   <div class="flex justify-between items-center mb-12">
     <h1 class="font-bold text-4xl">Prayers</h1>
-    <%= link_to "New prayer", new_prayer_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "New prayer", new_prayer_path(filter: params[:filter]), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
 
   <div class="flex border-b border-slate-200 mb-8 gap-6">
@@ -21,11 +21,11 @@
           class: "pb-3 text-base font-semibold border-b-2 #{params[:filter] == 'all' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}" %>
   </div>
 
-  <div id="prayers" class="min-w-full space-y-4">
+  <div id="prayers" class="w-full space-y-4 flex flex-col">
     <% if @prayers.any? %>
       <% @prayers.each do |prayer| %>
         <% if prayer.specification.present? %>  
-          <details class="group bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+          <details class="group w-full bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
             <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold hover:bg-slate-50 transition-colors list-none select-none <%= prayer.answered? ? 'text-slate-400' : 'text-slate-800' %>">
               <div class="flex items-center gap-2">
                 <span class="text-xl font-bold"><%= prayer.prayer.camelize %></span>
@@ -34,13 +34,16 @@
                 </svg>
               </div>
               
-              <% if prayer.answered? %>
-                <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete %>
-              <% else %>
-                <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
-                      method: :patch, 
-                      class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
-              <% end %>
+              <div class="flex items-center gap-2">
+                <% if prayer.answered? %>
+                  <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete, class: "px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-xs rounded-md transition-colors" %>
+                <% else %>
+                  <%= link_to "Edit", edit_prayer_path(prayer, filter: params[:filter]), class: "rounded-md px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-700 font-medium text-xs transition-colors" %>
+                  <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
+                        method: :patch, 
+                        class: "shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
+                <% end %>
+              </div>
             </summary>
             
             <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose <%= prayer.answered? ? 'text-slate-400' : 'text-slate-600' %>">
@@ -48,26 +51,31 @@
             </div>
           </details>
         <% else %>
-          <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
+          <div class="w-full bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
             <h2 class="font-bold text-xl <%= prayer.answered? ? 'text-slate-400' : 'text-slate-800' %>"><%= prayer.prayer.camelize %></h2>
-            <% if prayer.answered? %>
-              <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete %>
-            <% else %>
-              <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
-                    method: :patch, 
-                    class: "ml-4 shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
-            <% end %>
+            
+            <div class="flex items-center gap-2">
+              <% if prayer.answered? %>
+                <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete, class: "px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-xs rounded-md transition-colors" %>
+              <% else %>
+                <!-- FIXED: Changed edit_question_path to edit_prayer_path(prayer, ...) -->
+                <%= link_to "Edit", edit_prayer_path(prayer, filter: params[:filter]), class: "rounded-md px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-700 font-medium text-xs transition-colors" %>
+                <%= button_to "Mark as Answered", answered_prayer_path(prayer), 
+                      method: :patch, 
+                      class: "shrink-0 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-medium text-xs rounded-md shadow-sm transition-colors" %>
+              <% end %>
+            </div>
           </div>
         <% end %>
       <% end %>
     <% else %>
-      <%if params[:filter] == "answered" %>
+      <% if params[:filter] == "answered" %>
         <p class="text-center my-10 text-gray-500">No prayers have been answered yet.</p>
-      <%elsif params[:filter] == "unanswered" %>
+      <% elsif params[:filter] == "unanswered" %>
         <p class="text-center my-10 text-gray-500">All prayers have been answered. Thank God!</p>
-      <%else%>
+      <% else %>
         <p class="text-center my-10 text-gray-500">No prayers yet.</p>
-      <%end%>
+      <% end %>
     <% end %>
   </div>
 </div>
