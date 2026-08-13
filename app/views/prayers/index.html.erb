@@ -56,7 +56,7 @@
             
             <div class="flex items-center gap-2">
               <% if prayer.answered? %>
-                <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete, class: "px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-xs rounded-md transition-colors" %>
+                <%= button_to "Delete", prayer_path(prayer, filter: params[:filter]), method: :delete, class: "px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-xs rounded-md transition-colors", data: { turbo_confirm: "Are you sure?" } %>
               <% else %>
                 <!-- FIXED: Changed edit_question_path to edit_prayer_path(prayer, ...) -->
                 <%= link_to "Edit", edit_prayer_path(prayer, filter: params[:filter]), class: "rounded-md px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-700 font-medium text-xs transition-colors" %>
