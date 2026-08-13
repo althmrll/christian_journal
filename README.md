@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Preparatory:
+- Install Ruby 3.2.6 on your machine
+- Install postgresql on your machine
 
-Things you may want to cover:
+Steps to Initialize website
+Step 1: Clone repository
 
-* Ruby version
+Step 2: in you terminal type "bundle install" and wait for the installation to finish
 
-* System dependencies
+Step 3: after installation finishes type "bin/rails db:prepare" to initialize databases for the website
 
-* Configuration
+Step 4: go to rails console using "bin/rails console" to create your password. Use Access.create!(password: "PASSWORD")
 
-* Database creation
+Step 5: Exit console
 
-* Database initialization
+Step 6: type "bin/dev". this will automatically install foreman and run the website
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Step 7: Access "http://localhost:3000/" in your browser to view and use website
