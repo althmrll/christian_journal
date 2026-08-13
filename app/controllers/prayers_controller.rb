@@ -48,7 +48,7 @@ class PrayersController < ApplicationController
     respond_to do |format|
       if @prayer.update(prayer_params)
         format.html { redirect_to @prayer, notice: "Prayer was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @prayer }
+        format.json { render :prayer_path, status: :ok, location: @prayer }
       else
         format.html { render :edit, status: :unprocessable_content }
         format.json { render json: @prayer.errors, status: :unprocessable_content }
