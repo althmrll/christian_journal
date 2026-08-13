@@ -45,10 +45,9 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        # Keeps user on the same filter tab they were editing from
         current_filter = params[:filter].presence || (@question.answer.present? ? "answered" : "unanswered")
         format.html { redirect_to questions_path(filter: current_filter), notice: "Question was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @question }
+        format.json { render :questions_path, status: :ok, location: @question }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }
