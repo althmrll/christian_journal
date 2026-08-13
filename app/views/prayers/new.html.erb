@@ -1,7 +1,9 @@
 <% content_for :title, "New prayer" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New prayer</h1>
+<div class="w-full flex items-center justify-center p-4">
+  <div class="w-full max-w-lg bg-white">
+    <h1 class="font-bold text-3xl sm:text-4xl text-slate-900 mb-6 text-center">New question</h1>
 
-  <%= render "form", prayer: @prayer %>
+    <%= render "form", prayer: @prayer %>
+  </div>
 </div>
