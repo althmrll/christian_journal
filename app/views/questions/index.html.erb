@@ -7,7 +7,7 @@
 
   <div class="flex justify-between items-center mb-12">
     <h1 class="font-bold text-4xl">Questions</h1>
-    <%= link_to "New Question", new_question_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "New Question", new_question_path(filter: params[:filter]), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
 
   <div class="flex border-b border-slate-200 mb-8 gap-6">
@@ -21,12 +21,12 @@
           class: "pb-3 text-base font-semibold border-b-2 #{params[:filter] == 'all' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}" %>
   </div>
 
-  <div id="questions" class="min-w-full space-y-4">
+  <div id="questions" class="w-full space-y-4 flex flex-col">
     <% if @questions.any? %>
       <% @questions.each do |question| %>
         <% if question.answer.present? %>  
           <!-- ANSWERED QUESTION DRAWER -->
-          <details class="group bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+          <details class="group w-full bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
             <summary class="flex justify-between items-center px-5 py-4 cursor-pointer font-semibold hover:bg-slate-50 transition-colors list-none select-none text-slate-400">
               <div class="flex items-center gap-2">
                 <span class="mr-10 whitespace-pre-wrap text-xl font-bold"><%= question.question.camelize %></span>
@@ -36,39 +36,37 @@
               </div>
               <div class="flex gap-1">
                 <%= link_to edit_question_path(question, filter: params[:filter]), title: "Update Answer", class: "p-2 text-slate-800 hover:text-slate-800 hover:bg-slate-300 rounded-lg transition-colors" do %>
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
                 <% end %>
 
-                <%= button_to question_path(question, filter: params[:filter]), method: :delete, title: "Delete Question", class: "p-2 text-slate-800 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer",data: { turbo_confirm: "Are you sure?" } do %>
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
+                <%= button_to question_path(question, filter: params[:filter]), method: :delete, title: "Delete Question", class: "p-2 text-slate-800 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
                 <% end %>
               </div>
             </summary>
             
-            <div class="whitespace-pre-wrap px-5 bg-slate-50 border-t border-slate-100 prose text-slate-600">
+            <div class="px-5 py-4 bg-slate-50 border-t border-slate-100 prose <%= question.answered? ? 'text-slate-400' : 'text-slate-600' %>">
               <%= simple_format(question.answer) %>
             </div>
           </details>
         <% else %>
           <!-- UNANSWERED QUESTION CARD -->
-          <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
+          <div class="w-full bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
             <h2 class="font-bold text-xl text-slate-800 whitespace-pre-wrap"><%= question.question.camelize %></h2>
-            <div class="whitespace-nowrap">
-            <div class="flex">
-            <div class="flex">
+            
+            <div class="flex items-center gap-2 shrink-0">
               <%= link_to "Update Question", edit_question_path(question, filter: params[:filter]), 
-                  class: "rounded-md px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white text-semibold transition-colors" %>
+                  class: "rounded-md px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-semibold transition-colors" %>
 
-                <%= button_to question_path(question), method: :delete, title: "Delete Question", class: "p-2 text-slate-800 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer",data: { turbo_confirm: "Are you sure?" } do %>
+              <%= button_to question_path(question, filter: params[:filter]), method: :delete, title: "Delete Question", class: "p-2 text-slate-800 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round"edit_question_path(question, filter: params[:filter]) stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
-                <% end %>
-            </div>
+              <% end %>
             </div>
           </div>
         <% end %>
