@@ -28,15 +28,16 @@
         Christian Journal
       </div>
       <div>
-        <% if session[:authenticated] %>
-          <nav class="flex items-center space-x-4 p-4 whitespace-nowrap">
-            <%= link_to "Home", root_path, class: "text-white  hover:text-sky-400" %>
+        <nav class="flex items-center space-x-4 p-4 whitespace-nowrap cursor-pointer">
+          <% if session[:authenticated] %>
             <%= link_to "Entries", entries_path, class: "text-white hover:text-sky-400" %>
             <%= link_to "Prayers", prayers_path, class: "text-white hover:text-sky-400" %>
             <%= link_to "Questions", questions_path, class: "text-white hover:text-sky-400" %>
-            <%= button_to "Log Out", logout_path, method: :delete, class:"text-[#ff413b] font-semibold cursor-pointer hover:text-[#ff6b66]"%>
-          </nav>
+            <%= button_to "Log Out", logout_path, method: :delete, class:"text-[#ff413b] font-semibold hover:text-[#ff6b66]"%>
+          <% else %>
+            <%= link_to "Log In", new_access_path, class: "text-white font-semibold hover:text-sky-400" %>
         <% end %>
+        </nav>
       </div>
     </div>
   </header>

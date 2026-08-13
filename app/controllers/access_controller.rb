@@ -7,7 +7,7 @@ class AccessController < ApplicationController
   def create
     if Access.authenticate(params[:password])
       session[:authenticated] = true
-      redirect_to root_path, notice: "Access granted!"
+      redirect_to entries_path, notice: "Access granted!"
     else
       flash.now[:alert] = "Incorrect password."
       render :new, status: :unprocessable_entity
@@ -16,6 +16,6 @@ class AccessController < ApplicationController
 
   def destroy
     session[:authenticated] = nil
-    redirect_to new_access_path, notice: "You have been logged out."
+    redirect_to root_path, notice: "You have been logged out."
   end
 end
