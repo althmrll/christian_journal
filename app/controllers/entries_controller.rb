@@ -52,10 +52,15 @@ class EntriesController < ApplicationController
   # DELETE /entries/1 or /entries/1.json
   def destroy
     @entry.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to entries_path, notice: "Entry was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    if params[:return_to] == "show"
+      last_entry = Entry.order(created_at: :desc).first
+      if last_entry
+        redirect_to last_entry, notice: "Entry deleted."
+      else
+        redirect_to entries_path, notice: "Entry deleted. No remaining entries."
+      end
+    else
+      redirect_to entries_path, notice: "Entry deleted."
     end
   end
 
