@@ -45,14 +45,11 @@ class PrayersController < ApplicationController
 
   # PATCH/PUT /prayers/1 or /prayers/1.json
   def update
-    respond_to do |format|
-      if @prayer.update(prayer_params)
-        format.html { redirect_to @prayer, notice: "Prayer was successfully updated.", status: :see_other }
-        format.json { render :prayer_path, status: :ok, location: @prayer }
-      else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @prayer.errors, status: :unprocessable_content }
-      end
+    if @prayer.update(prayer_params)
+      redirect_to prayers_path(filter: params[:filter]), notice: "Prayer updated successfully!"
+    else
+      # Ensures errors display if validations fail
+      render :edit, status: :unprocessable_entity
     end
   end
 
